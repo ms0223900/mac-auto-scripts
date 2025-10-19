@@ -119,12 +119,12 @@ on run argv
             
             -- 4. 按下 Esc
             key code 53
-            delay 0.5
+            delay 1
 
-            -- 滑鼠點左鍵4次
-            repeat 1 times
-                click   
-                delay 0.2  -- 每次點擊間隔0.2秒
+            -- 滑鼠點左鍵2次
+            repeat 2 times
+                do shell script "cliclick c:."
+                delay 0.2
             end repeat
             delay 0.5
             
