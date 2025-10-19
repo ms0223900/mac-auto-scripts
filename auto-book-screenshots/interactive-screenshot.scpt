@@ -1,45 +1,83 @@
 -- 互動式自動截圖腳本
--- 用戶可以選擇執行次數和翻頁按鍵
+-- 用戶可以選擇執行次數，翻頁按鍵透過命令行參數指定
 -- 
 -- 腳本流程：
 -- 1. Cmd + Shift + ] (截圖快捷鍵 - 固定不變)
 -- 2. Cmd + s (儲存截圖)
 -- 3. Enter (確認儲存)
 -- 4. Esc (關閉對話框)
--- 5. 翻頁按鍵 (可透過變數配置)
+-- 5. 翻頁按鍵 (透過命令行參數指定)
 -- 
--- 如何修改翻頁按鍵：
--- 1. 修改 pageTurnKey 變數 (僅用於顯示)
--- 2. 修改 pageTurnKeyCode 變數 (實際的按鍵代碼)
--- 3. 修改 pageTurnModifiers 變數 (修飾鍵組合)
+-- 使用方式：
+-- ./auto-book-screenshots.sh --next-page "Right Arrow"
+-- ./auto-book-screenshots.sh --next-page "Space"
+-- ./auto-book-screenshots.sh --next-page "Cmd+Right Arrow"
 -- 
--- 常用按鍵代碼參考：
--- 123 = 左方向鍵, 124 = 右方向鍵, 125 = 下方向鍵, 126 = 上方向鍵
--- 30 = ], 33 = [, 36 = Enter, 53 = Esc
+-- 支援的按鍵名稱：
+-- Left Arrow, Right Arrow, Up Arrow, Down Arrow
+-- Space, Enter, Tab, Escape
+-- Cmd+Left Arrow, Cmd+Right Arrow, Cmd+Up Arrow, Cmd+Down Arrow
 
-on run
-    -- ===== 配置區域 =====
-    -- 翻頁按鍵配置 (可修改此處來改變翻頁按鍵)
-    -- 
-    -- 範例配置：
-    -- 1. 左方向鍵 (預設)
-    --    set pageTurnKey to "左方向鍵"
-    --    set pageTurnKeyCode to 123
-    --    set pageTurnModifiers to {}
-    --
-    -- 2. 右方向鍵
-    --    set pageTurnKey to "右方向鍵"
-    --    set pageTurnKeyCode to 124
-    --    set pageTurnModifiers to {}
-    --
-    -- 3. Cmd + 右方向鍵
-    --    set pageTurnKey to "Cmd + 右方向鍵"
-    --    set pageTurnKeyCode to 124
-    --    set pageTurnModifiers to {command down}
+on run argv
+    -- ===== 參數解析 =====
+    -- 從命令行參數獲取翻頁按鍵
+    set pageTurnKeyName to "Left Arrow"  -- 預設值
     
-    set pageTurnKey to "左方向鍵"  -- 翻頁按鍵組合
-    set pageTurnKeyCode to 123  -- 對應的 key code (123 = 左方向鍵)
-    set pageTurnModifiers to {}  -- 修飾鍵
+    if (count of argv) > 0 then
+        set pageTurnKeyName to item 1 of argv
+    end if
+    
+    -- ===== 按鍵映射 =====
+    -- 將按鍵名稱轉換為對應的 key code 和修飾鍵
+    set pageTurnKey to pageTurnKeyName
+    set pageTurnKeyCode to 123  -- 預設左方向鍵
+    set pageTurnModifiers to {}  -- 預設無修飾鍵
+    
+    -- 按鍵名稱到 key code 的映射
+    if pageTurnKeyName is "Left Arrow" then
+        set pageTurnKeyCode to 123
+        set pageTurnModifiers to {}
+    else if pageTurnKeyName is "Right Arrow" then
+        set pageTurnKeyCode to 124
+        set pageTurnModifiers to {}
+    else if pageTurnKeyName is "Up Arrow" then
+        set pageTurnKeyCode to 126
+        set pageTurnModifiers to {}
+    else if pageTurnKeyName is "Down Arrow" then
+        set pageTurnKeyCode to 125
+        set pageTurnModifiers to {}
+    else if pageTurnKeyName is "Space" then
+        set pageTurnKeyCode to 49
+        set pageTurnModifiers to {}
+    else if pageTurnKeyName is "Enter" then
+        set pageTurnKeyCode to 36
+        set pageTurnModifiers to {}
+    else if pageTurnKeyName is "Tab" then
+        set pageTurnKeyCode to 48
+        set pageTurnModifiers to {}
+    else if pageTurnKeyName is "Escape" then
+        set pageTurnKeyCode to 53
+        set pageTurnModifiers to {}
+    else if pageTurnKeyName is "Cmd+Left Arrow" then
+        set pageTurnKeyCode to 123
+        set pageTurnModifiers to {command down}
+    else if pageTurnKeyName is "Cmd+Right Arrow" then
+        set pageTurnKeyCode to 124
+        set pageTurnModifiers to {command down}
+    else if pageTurnKeyName is "Cmd+Up Arrow" then
+        set pageTurnKeyCode to 126
+        set pageTurnModifiers to {command down}
+    else if pageTurnKeyName is "Cmd+Down Arrow" then
+        set pageTurnKeyCode to 125
+        set pageTurnModifiers to {command down}
+    else
+        -- 未知按鍵，使用預設值並顯示警告
+        display dialog "⚠️ 警告：未知的按鍵名稱 '" & pageTurnKeyName & "'
+
+將使用預設的左方向鍵。" buttons {"確定"} default button "確定"
+        set pageTurnKeyCode to 123
+        set pageTurnModifiers to {}
+    end if
     
     -- ===== 用戶輸入區域 =====
     -- 獲取用戶輸入
@@ -81,6 +119,13 @@ on run
             
             -- 4. 按下 Esc
             key code 53
+            delay 0.5
+
+            -- 滑鼠點左鍵4次
+            repeat 1 times
+                click   
+                delay 0.2  -- 每次點擊間隔0.2秒
+            end repeat
             delay 0.5
             
             -- 5. 按下翻頁按鍵 (使用變數配置)
