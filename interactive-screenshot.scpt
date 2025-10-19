@@ -16,6 +16,7 @@ on run
 2. Cmd + Shift + ]
 3. Cmd + s
 4. Enter
+5. Esc
 
 點擊確定開始執行..." buttons {"確定", "取消"} default button "確定"
     
@@ -36,6 +37,10 @@ on run
             
             -- 4. 按下 Enter
             key code 36
+            delay 1
+            
+            -- 5. 按下 Esc
+            key code 53
             delay 1
             
             -- 可選：添加短暫延遲避免過快執行
