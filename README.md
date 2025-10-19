@@ -11,13 +11,16 @@
 - 支援自定義執行次數
 - 提供進度通知
 - 完整的按鍵序列自動化
+- 配合 Snipaste 自動偵測 App 截圖功能
 
 ### 按鍵序列 / Key Sequence
-1. **Cmd + Shift + ]** - 截圖
+1. **Cmd + Shift + ]** - 截圖（作者自定義快捷鍵）
 2. **Cmd + s** - 保存
 3. **Enter** - 確認
 4. **Esc** - 取消當下截圖
 5. **左方向鍵** - 翻頁
+
+> ⚠️ **重要提醒**: 截圖快捷鍵是作者個人設定，如有需要請自行修改腳本中的按鍵組合
 
 ### 使用方法 / Usage
 
@@ -52,12 +55,17 @@ mac-auto-scripts/
    - 系統偏好設定 → 安全性與隱私 → 隱私權 → 輔助功能
    - 添加「終端機」應用程式
 
-2. **執行腳本** / Run Script
+2. **準備環境** / Prepare Environment
+   - 確保 Snipaste 已安裝並運行
+   - 開啟電子書閱讀器 App
+   - **重要**: 腳本啟動後，手動點擊電子書 App 視窗，確保截圖能正確捕獲該 App
+
+3. **執行腳本** / Run Script
    ```bash
    osascript auto-book-screenshots/interactive-screenshot.scpt
    ```
 
-3. **輸入次數** / Enter Count
+4. **輸入次數** / Enter Count
    - 在彈出對話框中輸入要執行的次數
    - 點擊「開始」按鈕
 
@@ -65,7 +73,9 @@ mac-auto-scripts/
 
 - macOS 系統
 - 輔助功能權限
+- **Snipaste** 截圖工具（支援自動偵測 App 功能）
 - 目標應用程式（如電子書閱讀器）處於活動狀態
+- **重要**: 腳本執行前需手動點擊目標 App 視窗
 
 ## 🔧 技術細節 / Technical Details
 
@@ -73,6 +83,8 @@ mac-auto-scripts/
 - **執行環境**: macOS System Events
 - **按鍵模擬**: 使用 key code 和 keystroke
 - **延遲設定**: 每個按鍵間 1 秒延遲，開始前 2 秒準備時間
+- **截圖工具**: 配合 Snipaste 的自動偵測 App 功能
+- **自定義快捷鍵**: 截圖快捷鍵可根據個人需求修改
 
 ## 📖 更多資訊 / More Information
 
