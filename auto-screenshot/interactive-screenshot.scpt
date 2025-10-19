@@ -44,7 +44,7 @@ on run
             delay 1
             
             -- 5. 按下左方向鍵
-            key code 37
+            key code 123
             delay 1
             
             -- 可選：添加短暫延遲避免過快執行
