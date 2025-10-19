@@ -12,11 +12,11 @@ on run
     -- 顯示確認訊息
     display dialog "將執行 " & repeatCount & " 次按鍵序列：
 
-1. 左方向鍵
-2. Cmd + Shift + ]
-3. Cmd + s
-4. Enter
-5. Esc
+1. Cmd + Shift + ]
+2. Cmd + s
+3. Enter
+4. Esc
+5. 左方向鍵
 
 點擊確定開始執行..." buttons {"確定", "取消"} default button "確定"
     
@@ -24,23 +24,24 @@ on run
     set counter to 1
     repeat repeatCount times
         tell application "System Events"
-            -- 1. 按下左方向鍵
-            key code 37
-            
-            -- 2. 按下 Cmd + Shift + ]
+            -- 1. 按下 Cmd + Shift + ]
             key code 30 using {command down, shift down}
             delay 1
             
-            -- 3. 按下 Cmd + s
+            -- 2. 按下 Cmd + s
             keystroke "s" using command down
             delay 1
             
-            -- 4. 按下 Enter
+            -- 3. 按下 Enter
             key code 36
             delay 1
             
-            -- 5. 按下 Esc
+            -- 4. 按下 Esc
             key code 53
+            delay 1
+            
+            -- 5. 按下左方向鍵
+            key code 37
             delay 1
             
             -- 可選：添加短暫延遲避免過快執行
