@@ -1,0 +1,1 @@
+osascript ./auto-book-screenshots/interactive-screenshot.scpt
