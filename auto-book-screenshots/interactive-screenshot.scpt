@@ -29,11 +29,11 @@ on run
         tell application "System Events"
             -- 1. 按下 Cmd + Shift + ]
             key code 30 using {command down, shift down}
-            delay 1
+            delay 0.5
             
             -- 2. 按下 Cmd + s
             keystroke "s" using command down
-            delay 1
+            delay 0.5
             
             -- 3. 按下 Enter
             key code 36
@@ -41,7 +41,7 @@ on run
             
             -- 4. 按下 Esc
             key code 53
-            delay 1
+            delay 0.5
             
             -- 5. 按下左方向鍵
             key code 123
