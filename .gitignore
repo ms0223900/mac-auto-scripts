@@ -1,0 +1,62 @@
+# macOS 自動執行指令專案 - .gitignore
+
+# macOS 系統檔案
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# AppleScript 編譯檔案
+*.scptd
+*.app
+
+# 臨時檔案
+*.tmp
+*.temp
+*~
+
+# 日誌檔案
+*.log
+logs/
+
+# 備份檔案
+*.bak
+*.backup
+*.orig
+
+# 編輯器設定檔案
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 終端機歷史
+.bash_history
+.zsh_history
+
+# 系統快取
+~/Library/Caches/
+/System/Library/Caches/
+
+# 使用者設定
+~/Library/Preferences/
+~/Library/Application Support/
+
+# 測試檔案
+test_*
+*_test.*
+
+# 敏感資訊
+*.key
+*.pem
+*.p12
+*.mobileprovision
+secrets/
+credentials/
+
+# 專案特定檔案
+# 如果有特定的測試或臨時檔案，可以在這裡添加
