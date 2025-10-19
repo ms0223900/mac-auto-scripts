@@ -6,12 +6,15 @@
 -- 2. Cmd + s (儲存截圖)
 -- 3. Enter (確認儲存)
 -- 4. Esc (關閉對話框)
--- 5. 翻頁按鍵 (透過命令行參數指定)
+-- 5. 滑鼠點擊2次 (僅在 --should-click-to-activate 時執行)
+-- 6. 翻頁按鍵 (透過命令行參數指定)
 -- 
 -- 使用方式：
 -- ./auto-book-screenshots.sh --next-page "Right Arrow"
 -- ./auto-book-screenshots.sh --next-page "Space"
 -- ./auto-book-screenshots.sh --next-page "Cmd+Right Arrow"
+-- ./auto-book-screenshots.sh --should-click-to-activate
+-- ./auto-book-screenshots.sh --next-page "Right Arrow" --should-click-to-activate
 -- 
 -- 支援的按鍵名稱：
 -- Left Arrow, Right Arrow, Up Arrow, Down Arrow
@@ -20,11 +23,16 @@
 
 on run argv
     -- ===== 參數解析 =====
-    -- 從命令行參數獲取翻頁按鍵
+    -- 從命令行參數獲取翻頁按鍵和點擊設定
     set pageTurnKeyName to "Left Arrow"  -- 預設值
+    set shouldClickToActivate to false  -- 預設值
     
     if (count of argv) > 0 then
         set pageTurnKeyName to item 1 of argv
+    end if
+    
+    if (count of argv) > 1 then
+        set shouldClickToActivate to (item 2 of argv) is "true"
     end if
     
     -- ===== 按鍵映射 =====
@@ -88,6 +96,12 @@ on run argv
     set repeatCount to text returned of userInput as integer
     
     -- 顯示確認訊息
+    set clickStatus to ""
+    if shouldClickToActivate then
+        set clickStatus to "6. 滑鼠點擊2次 (啟用點擊功能)
+"
+    end if
+    
     display dialog "將執行 " & repeatCount & " 次按鍵序列：
 
 1. Cmd + Shift + ] (截圖快捷鍵)
@@ -95,7 +109,7 @@ on run argv
 3. Enter (確認儲存)
 4. Esc (關閉對話框)
 5. " & pageTurnKey & " (翻頁按鍵)
-
+" & clickStatus & "
 點擊確定開始執行..." buttons {"確定", "取消"} default button "確定"
     
     -- 執行按鍵序列
@@ -121,14 +135,16 @@ on run argv
             key code 53
             delay 1
 
-            -- 滑鼠點左鍵2次
-            repeat 2 times
-                do shell script "cliclick c:."
-                delay 0.2
-            end repeat
-            delay 0.5
+            -- 5. 條件性滑鼠點擊 (僅在啟用時執行)
+            if shouldClickToActivate then
+                repeat 2 times
+                    do shell script "cliclick c:."
+                    delay 0.2
+                end repeat
+                delay 0.5
+            end if
             
-            -- 5. 按下翻頁按鍵 (使用變數配置)
+            -- 6. 按下翻頁按鍵 (使用變數配置)
             key code pageTurnKeyCode using pageTurnModifiers
             delay 1
             
