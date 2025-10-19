@@ -22,6 +22,9 @@ on run
     
     -- 執行按鍵序列
     set counter to 1
+
+    delay 2
+    
     repeat repeatCount times
         tell application "System Events"
             -- 1. 按下 Cmd + Shift + ]
